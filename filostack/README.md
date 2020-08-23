@@ -1,4 +1,4 @@
-# FiLoStack
+# FiloStack
 
 ## Setup
 ```sh
