@@ -9,7 +9,7 @@ python_version = "3.8"
 [packages]
 
 [dev-packages]
-filostack = {editable = true,path = "."}
+checkout = {editable = true,path = "."}
 black = "==19.3b0"
 flake8 = "*"
 isort = "*"
