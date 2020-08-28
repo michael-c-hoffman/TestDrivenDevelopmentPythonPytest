@@ -5,8 +5,8 @@ from typing import Any
 
 
 class Filostack:
-    def __init__(self):
-        self.items = []
+    def __init__(self) -> None:
+        self.items: list = []
 
     def push(self, item: Any) -> None:
         self.items.append(item)

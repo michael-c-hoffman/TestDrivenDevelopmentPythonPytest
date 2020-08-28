@@ -1,5 +1,3 @@
-from typing import Any
-
 import pytest
 
 from filostack import Filostack
@@ -7,8 +5,7 @@ from filostack import Filostack
 
 class TestFiloStack:
     @pytest.fixture
-    def filostack(self, data_stack) -> Filostack:
-        filostack = Filostack()
+    def filostack(self, data_stack):
         yield Filostack()
 
     def test_CreateFilostack(self, filostack) -> None:
@@ -24,8 +21,8 @@ class TestFiloStack:
     def test_LengthFilostack(self, filostack, data_stack) -> None:
         filostack.push(data_stack)
         filostack.push(data_stack)
-        assert(isinstance(filostack.length(), int))
-        assert(filostack.length() == 2)
+        assert isinstance(filostack.length(), int)
+        assert filostack.length() == 2
 
     def test_PopEmptyStack(self, filostack) -> None:
         with pytest.raises(IndexError):
