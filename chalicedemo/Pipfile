@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[requires]
+python_version = "3.8"
+
+[packages]
+chalicedemo = {editable = true,path = "."}
+
+[dev-packages]
+black = "==19.3b0"
+pylint = "*"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cov = "*"
+chalice = "*"
+pytest-chalice = "*"
