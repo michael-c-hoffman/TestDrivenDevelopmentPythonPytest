@@ -1,4 +1,4 @@
-# ChaliceDemo
+# chalicedemo
 
 ## Setup
 ```sh

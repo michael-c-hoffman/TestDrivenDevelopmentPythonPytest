@@ -1,13 +1,13 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="mylib",
+    name="chalicedemo",
     version="0.0.1",
     author_email="author@example.com",
-    description="mylib",
+    description="Chalice Demo",
     long_description=long_description,
     long_description_content_type="text/markdown",
     #url="https://github.com/pypa/sampleproject",

@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[requires]
+python_version = "3.8"
+
+[packages]
+flask = "*"
+werkzeug = "*"
+
+[dev-packages]
+flasktest = {editable = true,path = "."}
+black = "==19.3b0"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cov = "*"
+flask = "*"
+pytest-flask = "*"

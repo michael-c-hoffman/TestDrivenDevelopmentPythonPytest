@@ -7,9 +7,11 @@ verify_ssl = true
 python_version = "3.8"
 
 [packages]
-chalicedemo = {editable = true,path = "."}
+boto3 = "*"
+requests = "*"
 
 [dev-packages]
+chalicedemo = {editable = true,path = "."}
 black = "==19.3b0"
 pylint = "*"
 isort = "*"
@@ -17,5 +19,5 @@ mypy = "*"
 pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
-chalice = "*"
 pytest-chalice = "*"
+chalice = "*"
