@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[requires]
+python_version = "3.8"
+
+[packages]
+pynamoMoto = {editable = true,path = "."}
+boto3 = "*"
+pynamodb = "*"
+
+[dev-packages]
+black = "==19.3b0"
+pylint = "*"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-html = "*"
+pytest-sugar = "*"
+pytest-xdist = "*"
+moto = "*"
