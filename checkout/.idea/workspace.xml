@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="c19a595f-8135-4a92-95aa-0086906320d4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../filostack/.coveragerc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/.dockerignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/.editorconfig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/.github/workflows/publish-docker.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/.github/workflows/test.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/.pre-commit-config.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/Pipfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/filostack/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/filostack/__main__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/filostack/filostack.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/setup.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/test/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../filostack/test/test_filostack.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +26,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -65,5 +55,9 @@
       <screen x="0" y="29" width="1600" height="871" />
     </state>
     <state x="553" y="335" width="484" height="266" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.29.1600.871@0.29.1600.871" timestamp="1598224545649" />
+    <state x="289" y="99" width="1022" height="737" key="SettingsEditor" timestamp="1603345774308">
+      <screen x="0" y="29" width="1600" height="871" />
+    </state>
+    <state x="289" y="99" width="1022" height="737" key="SettingsEditor/0.29.1600.871@0.29.1600.871" timestamp="1603345774308" />
   </component>
 </project>
