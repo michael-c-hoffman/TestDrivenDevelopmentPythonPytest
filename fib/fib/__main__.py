@@ -1,6 +1,6 @@
 import sys
 
-from . import fib
+from fib import fib
 
 if __name__ == "__main__":
     n = int(sys.argv[1])

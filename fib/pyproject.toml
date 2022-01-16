@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "fib"
+version = "0.1.0"
+description = ""
+authors = ["unknown <unknown@unknown.com>"]
+packages = [
+    { include = "fib" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+black = { version = "*", allow-prereleases = true }
+isort = { version = "*" }
+mypy = { version = "*" }
+poethepoet = { version = "*" }
+pytest-isort = { version = "*" }
+pytest-aio = { version = "*" }
+pytest-assume = { version = "*" }
+pytest-asyncio = { version = "*" }
+pytest-black = { version = "*" }
+pytest-colordots = { version = "*" }
+pytest-cov = { version = "*" }
+pytest-datadir = { version = "*" }
+pytest-depends = { version = "*" }
+pytest-html = { version = "*" }
+pytest-metadata = { version = "*" }
+pytest-mock = { version = "*" }
+pytest-pylint = { version = "*" }
+pytest-sugar = { version = "*" }
+pytest = { version = "*" }
+pytest-xdist = { version = "*" }
+hypothesis = "^6.24.0"
+pygraphviz = "^1.7"
+gprof2dot = "^2021.2.21"
+
+[tool.pytest.ini_options]
+python_classes = "*Test"
+python_functions = "*Test"
+python_files = "*Tests.py"
+addopts = "-v"
+testpaths = [
+    "fib",
+    "tests"
+]
+markers = [
+    "unitTests: unit tests",
+    "integrationTests: integration tests",
+]
+
+[tool.poe.tasks]
+pytest = "pytest --isort --black --pylint -v"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

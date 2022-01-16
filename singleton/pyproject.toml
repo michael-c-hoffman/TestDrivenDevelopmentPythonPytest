@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "singleton"
+version = "0.1.0"
+description = ""
+authors = ["Michael C Hoffman <michaelchoffman@gmail.com>"]
+packages = [
+    { include = "singleton" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+black = { version = "*", allow-prereleases = true }
+isort = { version = "*" }
+mypy = { version = "*" }
+pytest-aio = { version = "*" }
+pytest-assume = { version = "*" }
+pytest-asyncio = { version = "*" }
+pytest-colordots = { version = "*" }
+pytest-cov = { version = "*" }
+pytest-datadir = { version = "*" }
+pytest-depends = { version = "*" }
+pytest-html = { version = "*" }
+pytest-metadata = { version = "*" }
+pytest-mock = { version = "*" }
+pytest-sugar = { version = "*" }
+pytest = { version = "*" }
+pytest-xdist = { version = "*" }
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

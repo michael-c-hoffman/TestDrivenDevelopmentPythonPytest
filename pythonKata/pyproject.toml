@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "pythonKata"
+version = "0.1.0"
+description = ""
+authors = ["Michael Hoffman <michaelchoffman@gmail.com>"]
+packages = [
+    { include = "pythonKata" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+black = { version = "*", allow-prereleases = true }
+isort = { version = "*" }
+mypy = { version = "*" }
+poethepoet = { version = "*" }
+pytest-isort = { version = "*" }
+pytest-aio = { version = "*" }
+pytest-assume = { version = "*" }
+pytest-asyncio = { version = "*" }
+pytest-black = { version = "*" }
+pytest-colordots = { version = "*" }
+pytest-cov = { version = "*" }
+pytest-datadir = { version = "*" }
+pytest-depends = { version = "*" }
+pytest-html = { version = "*" }
+pytest-metadata = { version = "*" }
+pytest-mock = { version = "*" }
+pytest-pylint = { version = "*" }
+pytest-sugar = { version = "*" }
+pytest = { version = "*" }
+pytest-xdist = { version = "*" }
+
+[tool.pytest.ini_options]
+python_classes = "Test*"
+python_functions = "*Test"
+python_files = "*Tests.py"
+addopts = "-v"
+testpaths = ["pythonKata", "tests"]
+markers = [
+    "unitTests: unit tests",
+    "integrationTests: integration tests",
+]
+
+[tool.poe.tasks]
+pytest = "pytest --isort --black --pylint -v"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
