@@ -1,17 +1,17 @@
 [tool.poetry]
-name = "multiCurrency"
+name = "fizzBuzz"
 version = "0.1.0"
 description = ""
 authors = ["unknown <unknown@unknown.com>"]
 packages = [
-    { include = "multiCurrency" }
+    { include = "fizzBuzz" }
 ]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-forex-python = "^1.8"
 
 [tool.poetry.dev-dependencies]
+safety = { version = "*" }
 black = { version = "*", allow-prereleases = true }
 flake8 = { version = "*" }
 isort = { version = "*" }
@@ -34,9 +34,8 @@ pytest-isort = { version = "*" }
 pytest-mypy = { version = "*" }
 pytest = { version = "*" }
 pytest-xdist = { version = "*" }
-safety = "^1.10.3"
 
-[tool.poetry.scripts]
+[tool.pytest.scripts]
 mypyTests = "scripts.codeFormat:mypyTests"
 isortTests = "scripts.codeFormat:isortTests"
 isortFix = "scripts.codeFormat:isortFix"
@@ -48,18 +47,17 @@ pytestCovTerm = "scripts.codeFormat:pytestCovTerm"
 pytestTestReports = "scripts.codeFormat:pytestTestReports"
 pytestCovReports = "scripts.codeFormat:pytestCovReports"
 
-
 [tool.pytest.ini_options]
 python_classes = "*Test"
 python_functions = "*Test"
 python_files = "*Tests.py"
-addopts = "-vs"
+addopts = "-v"
 log_cli = true
-log_format = "%(asctime)s %(levelname)s %(message)s"
-log_date_format = "%Y-%m-%d %H:%M:%S"
 log_cli_level = "INFO"
+log_cli_format = "%(asctime)s %(levelname)s $(filename)s %(funcName)s %(lineno)d %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 testpaths = [
-    "multiCurrency",
+    "fizzBuzz",
     "tests",
 ]
 markers = [
@@ -75,9 +73,9 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 
 [tool.coverage.run]
-source = ["multiCurrency"]
+source = ["fizzBuzz"]
 omit = [
-    "multiCurrency/__main__.py",
+    "fizzBuzz/__main__.py",
     "tests/conftest.py"
 ]
 

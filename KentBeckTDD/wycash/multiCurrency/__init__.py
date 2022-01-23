@@ -6,4 +6,4 @@ import logging
 
 from multiCurrency import exceptions
 
-logging.getLogger('multiCurrency').addHandler(logging.NullHandler())
+logging.getLogger("multiCurrency").addHandler(logging.NullHandler())

@@ -1,0 +1,3 @@
+"""
+multiCurrency unit tests
+"""
