@@ -13,9 +13,12 @@ See https://en.wikipedia.org/wiki/Algebraic_notation_(chess)
 - [x] Board coordinate on board
 - [x] Check if square available
 - [x] Move to square and mark as visited
-- [ ] Knight current location
-- [ ] Define knight valid moves (upleft, upright, downleft, downright)
-- [ ] knight list of moves
+- [x] Knight current location
+- [x] Define knight valid moves (upleft, upright, downleft, downright)
+- [x] Negative moves which would wrap around list in python check
+- [x] knight list of moves
+- [ ] run - Loop through all next moves 
+    - [ ] Check if board complete
 - [ ] knight backtrack last move and try different path repeat until back to beginning
 
 [Source https://rosettacode.org/wiki/Knight's_tour]
