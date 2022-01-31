@@ -2,7 +2,9 @@ import logging
 import sys
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import (
+    Optional,
+)
 
 from knightsTour.exceptions import (
     InvalidLocationError,
@@ -30,7 +32,7 @@ class Board:
         # initialize 2d 8x8 matrix for board
         self.size = size
         self.__board = [
-            [0] * self.size
+            [-1] * self.size
             for i in range(self.size)
         ]
 
@@ -45,15 +47,12 @@ class Board:
         self.__size = value
 
     def __repr__(self):
-        string = ""
-        for row in self.__board:
-            string += f"{row}\n"
-        return string
+        return "\n".join([''.join(['{:^5}'.format(y) for y in row]) for row in self.__board])
 
     def complete(self) -> bool:
         boardComplete = False
         for row in self.__board:
-            if row != [1] * self.__size:
+            if row != [-1] * self.__size:
                 break
         else:
             boardComplete = True
@@ -74,7 +73,7 @@ class Board:
         """ check if square is available """
         try:
             available = False
-            if self.__board[location.x][location.y] == 0:
+            if self.__board[location.x][location.y] == -1:
                 available = True
         except IndexError as error:
             raise InvalidLocationError from error
@@ -84,7 +83,6 @@ class Board:
         try:
             move = False
             if self.onBoard(location) and self.available(location):
-                self.__board[location.x][location.y] = 1
                 move = True
             return move
         except IndexError:
@@ -92,19 +90,23 @@ class Board:
 
     def unset(self, location: Coordinate) -> None:
         try:
-            self.__board[location.x][location.y] = 0
+            self.__board[location.x][location.y] = -1
         except IndexError as error:
             raise InvalidLocationError from error
 
+    def mark(self, location: Coordinate, mark: object) -> None:
+        try:
+            self.__board[location.x][location.y] = mark
+        except IndexError as error:
+            raise InvalidLocationError from error
 
 class Knight:
     """ Define knight current location and moves """
     def __init__(self, start: Coordinate, board: Board) -> None:
         self.board = board
+        self.path: list[Coordinate] = []
         # try to place piece onto board
-        if not self.board.move(start):
-            raise InvalidLocationError
-        self.path: list[Coordinate] = [start]
+        self.move(start)
         self.__moves = [
             self.upLeft,
             self.upRight,
@@ -116,8 +118,11 @@ class Knight:
             self.downRight,
         ]
 
-    def nextMove(self) -> Optional[Coordinate]:
-        nextCoordinate = None
+    def run(self) -> None:
+        while self.nextMove():
+            continue
+
+    def nextMove(self) -> Optional[bool]:
         for move in self.__moves:
             try:
                 # call function from list of __moves
@@ -127,92 +132,67 @@ class Knight:
                 continue
         else:
             raise InvalidLocationError("no more moves to try")
-        return nextCoordinate
+        return True
+
+    def move(self, newLocation: Coordinate):
+        if self.board.move(newLocation):
+            self.path.append(newLocation)
+            self.board.mark(newLocation, len(self.path))
+        else:
+            raise InvalidLocationError("Not a valid Move")
 
     def upLeft(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 2
         newY = currentLocation.y - 1
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)
 
     def upRight(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 2
         newY = currentLocation.y + 1
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)
 
     def leftUp(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 1
         newY = currentLocation.y - 2
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)
 
     def rightUp(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 1
         newY = currentLocation.y + 2
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)
 
     def downLeft(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 2
         newY = currentLocation.y - 1
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)
 
     def downRight(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 2
         newY = currentLocation.y + 1
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)
 
     def leftDown(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 1
         newY = currentLocation.y - 2
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)
 
     def rightDown(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 1
         newY = currentLocation.y + 2
         newLocation = Coordinate(newX, newY)
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-        else:
-            raise InvalidLocationError("upLeft not valid move on board")
-        return newLocation
+        self.move(newLocation)

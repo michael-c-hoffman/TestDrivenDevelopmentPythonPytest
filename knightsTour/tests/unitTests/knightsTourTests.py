@@ -1,3 +1,4 @@
+import json
 import logging
 import sys
 
@@ -51,14 +52,15 @@ def checkSquareAvailableTest(coordinate, kboard):
 
 @pytest.mark.parametrize("coordinate", [Coordinate(1,2), Coordinate(0,0), Coordinate(4,7)])
 def checkSquareUnavailableTest(coordinate, kboard):
-    kboard.move(coordinate)
+    kboard.mark(coordinate, "x")
     assert not kboard.available(coordinate)
 
 @pytest.mark.parametrize("coordinates", [(Coordinate(1,2), Coordinate(0,0), Coordinate(4,7))])
 def moveToSquareTest(coordinates, kboard):
     for coordinate in coordinates:
         logger.info("coordinate=%s", coordinate)
-        kboard.move(coordinate)
+        if kboard.move(coordinate):
+            kboard.mark(coordinate, "1")
         assert not kboard.available(coordinate)
     logger.info("board\n%s", kboard)
 
@@ -72,70 +74,70 @@ def knightMoveLeftUpTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.leftUp()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(1, 2))])
 def knightMoveUpLeftTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.upLeft()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(1, 4))])
 def knightMoveUpRightTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.upRight()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(2, 5))])
 def knightMoveRightUpTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.rightUp()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(4, 1))])
 def knightMoveLeftDownTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.leftDown()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(5, 2))])
 def knightMoveDownLeftTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.downLeft()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(5, 4))])
 def knightMoveDownRightTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.downRight()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(4, 5))])
 def knightMoveRightDownTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.rightDown()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(3,3), Coordinate(1, 2))])
 def knightFirstMoveUpLeftTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.nextMove()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinateStart, coordinateExpected", [(Coordinate(0,0), Coordinate(1, 2))])
 def knightFirstMoveLoopToRightDownTest(kboard, coordinateStart, coordinateExpected):
     wknight = Knight(coordinateStart, kboard)
     location = wknight.nextMove()
     logger.info("board\n%s", wknight.board)
-    assert location == coordinateExpected
+    assert wknight.path[-1] == coordinateExpected
 
 @pytest.mark.parametrize("coordinates", [(
     Coordinate(3,3),
@@ -149,9 +151,8 @@ def knightFirstMoveLoopToRightDownTest(kboard, coordinateStart, coordinateExpect
     Coordinate(4,5),
 )])
 def noNextMovesTest(kboard, coordinates):
-    kboard = Board()
     for coordinate in coordinates[1:]:
-        kboard.move(coordinate)
+        kboard.mark(coordinate, "x")
     logger.info("board before moves\n%s", kboard)
 
     wknight = Knight(coordinates[0], kboard)
@@ -159,3 +160,16 @@ def noNextMovesTest(kboard, coordinates):
     with pytest.raises(InvalidLocationError) as error:
         wknight.nextMove()
     logger.info("knight path=%s", wknight.path)
+    logger.info("board\n%s", wknight.board)
+
+@pytest.mark.parametrize("coordinateStart", [Coordinate(3,3)])
+def runUntilNoMovesLeftTest(kboard, coordinateStart):
+    """
+    This is to test we can run until the path must backtrack
+    """
+    wknight = Knight(coordinateStart, kboard)
+    logger.info("wknight last move=%s", wknight.path[-1])
+    with pytest.raises(InvalidLocationError):
+        wknight.run()
+    logger.info("board\n%s", wknight.board)
+    logger.info("wknight last move=%s", json.dumps(wknight.path, indent=2, default=str))
