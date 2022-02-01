@@ -17,9 +17,11 @@ See https://en.wikipedia.org/wiki/Algebraic_notation_(chess)
 - [x] Define knight valid moves (upleft, upright, downleft, downright)
 - [x] Negative moves which would wrap around list in python check
 - [x] knight list of moves
-- [ ] run - Loop through all next moves 
-    - [ ] Check if board complete
+- [x] run - Loop through all next moves 
+    - [] Check if board complete
 - [ ] knight backtrack last move and try different path repeat until back to beginning
+    - [x] Need to remove move from board when performing the backtrack
+    - [ ] try all paths
 
 [Source https://rosettacode.org/wiki/Knight's_tour]
 ## Setup

@@ -9,6 +9,7 @@ from typing import (
 from knightsTour.exceptions import (
     InvalidLocationError,
     InvalidBoardSizeError,
+    NoMoreMovesError,
 )
 
 logger = logging.getLogger(__name__)
@@ -25,6 +26,8 @@ class Coordinate:
     x: int
     y: int
 
+    def __eq__(self, other):
+        return isinstance(other, Coordinate) and self.x == other.x and self.y == other.y
 
 class Board:
     """ define type of board and moves """
@@ -105,6 +108,7 @@ class Knight:
     def __init__(self, start: Coordinate, board: Board) -> None:
         self.board = board
         self.path: list[Coordinate] = []
+        self._pathPop: list[Coordinate] = []
         # try to place piece onto board
         self.move(start)
         self.__moves = [
@@ -118,20 +122,31 @@ class Knight:
             self.downRight,
         ]
 
+    def _backtrack(self) -> None:
+        self._pathPop.append(self.path.pop())
+        self.board.unset(self._pathPop[-1])
+        logger.debug("no more moves left popped %s", self._pathPop[-1])
+
     def run(self) -> None:
-        while self.nextMove():
-            continue
+        while len(self.path) > 0:
+            try:
+                self.nextMove()
+            except InvalidLocationError:
+                self._backtrack()
 
     def nextMove(self) -> Optional[bool]:
-        for move in self.__moves:
+        for knightMove in self.__moves:
             try:
                 # call function from list of __moves
-                nextCoordinate = move()
+                nextCoordinate = knightMove()
+                logger.debug("nextCoordinate=%s", nextCoordinate)
+                if len(self._pathPop) > 0 and nextCoordinate in self._pathPop:
+                    raise InvalidLocationError
                 break
             except InvalidLocationError:
                 continue
         else:
-            raise InvalidLocationError("no more moves to try")
+            raise NoMoreMovesError("no more moves to try")
         return True
 
     def move(self, newLocation: Coordinate):

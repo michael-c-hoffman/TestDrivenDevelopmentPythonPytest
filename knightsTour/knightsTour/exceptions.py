@@ -11,3 +11,6 @@ class InvalidBoardSizeError(KnightsTourError):
 
 class InvalidLocationError(KnightsTourError):
     """ Invalid Location on Board """
+
+class NoMoreMovesError(KnightsTourError):
+    """ No more move Locations on Board """

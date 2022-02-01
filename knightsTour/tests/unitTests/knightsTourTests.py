@@ -12,6 +12,7 @@ from knightsTour.game import(
 )
 from knightsTour.exceptions import(
     InvalidLocationError,
+    NoMoreMovesError
 )
 
 logger = logging.getLogger(__name__)
@@ -30,6 +31,18 @@ def kboard():
 def startLoc():
     coordinate = Coordinate(0, 0)
     yield coordinate
+
+def coordinateInListTest():
+    myList = [Coordinate(0,0), Coordinate(1,3), Coordinate(1,7), Coordinate(2,2)]
+    assert Coordinate(1,3) in myList
+
+def coordinateNotInListTest():
+    myList = [Coordinate(0,0), Coordinate(1,3), Coordinate(1,7), Coordinate(2,2)]
+    assert not Coordinate(4,3) in myList
+
+@pytest.mark.parametrize("coordinateA, coordinateB", [(Coordinate(0,0), Coordinate(0,0)), (Coordinate(3,3), Coordinate(3,3))])
+def coordinateEqualTest(coordinateA, coordinateB):
+    assert coordinateA == coordinateB
 
 @pytest.mark.parametrize("requestedSize", [8, 4, 9])
 def instantiateBoardSizeTest(requestedSize):
@@ -163,13 +176,25 @@ def noNextMovesTest(kboard, coordinates):
     logger.info("board\n%s", wknight.board)
 
 @pytest.mark.parametrize("coordinateStart", [Coordinate(3,3)])
-def runUntilNoMovesLeftTest(kboard, coordinateStart):
+def runUntilNoMovesLeftPopLastPathTest(kboard, coordinateStart):
     """
-    This is to test we can run until the path must backtrack
+    Move until no more moves left and then pop the last move off the stack
     """
     wknight = Knight(coordinateStart, kboard)
-    logger.info("wknight last move=%s", wknight.path[-1])
-    with pytest.raises(InvalidLocationError):
-        wknight.run()
+    logger.info("wknight start move=%s", wknight.path[-1])
+    maxrun = 0
+    #breakpoint()
+    try:
+        while maxrun < 50:
+            try:
+                wknight.nextMove()
+            except NoMoreMovesError:
+                maxrun += 1
+                wknight._backtrack()
+    except InvalidLocationError:
+        logger.exception("invalid location found")
+
     logger.info("board\n%s", wknight.board)
     logger.info("wknight last move=%s", json.dumps(wknight.path, indent=2, default=str))
+    logger.info("wknight._pathPop=%s", json.dumps(wknight._pathPop, indent=2, default=str))
+    assert len(wknight._pathPop) == 1
