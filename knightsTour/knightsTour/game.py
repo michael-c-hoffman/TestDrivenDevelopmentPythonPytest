@@ -13,12 +13,6 @@ from knightsTour.exceptions import (
 )
 
 logger = logging.getLogger(__name__)
-streamHandler = logging.StreamHandler(sys.stdout)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-streamHandler.setFormatter(formatter)
-logger.addHandler(streamHandler)
-logger.setLevel(logging.INFO)
-
 
 @dataclass
 class Coordinate:
@@ -141,6 +135,7 @@ class Knight:
                 nextCoordinate = knightMove()
                 logger.debug("nextCoordinate=%s", nextCoordinate)
                 if len(self._pathPop) > 0 and nextCoordinate in self._pathPop:
+                    self._backtrack()
                     raise InvalidLocationError
                 break
             except InvalidLocationError:
