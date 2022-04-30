@@ -1,17 +1,18 @@
 [tool.poetry]
-name = "multiCurrency"
+name = "kflask"
 version = "0.1.0"
 description = ""
-authors = ["unknown <unknown@unknown.com>"]
+authors = ["Michael Hoffman <michael.hoffman@53.com>"]
 packages = [
-    { include = "multiCurrency" }
+    { include = "kflask" }
 ]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-forex-python = "^1.8"
+Flask = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
+safety = { version = "*" }
 black = { version = "*", allow-prereleases = true }
 flake8 = { version = "*" }
 isort = { version = "*" }
@@ -34,11 +35,8 @@ pytest-isort = { version = "*" }
 pytest-mypy = { version = "*" }
 pytest = { version = "*" }
 pytest-xdist = { version = "*" }
-safety = "^1.10.3"
-graphviz = "^0.19.1"
-pydot = "^1.4.2"
 
-[tool.poetry.scripts]
+[tool.pytest.scripts]
 mypyTests = "scripts.codeFormat:mypyTests"
 isortTests = "scripts.codeFormat:isortTests"
 isortFix = "scripts.codeFormat:isortFix"
@@ -50,18 +48,17 @@ pytestCovTerm = "scripts.codeFormat:pytestCovTerm"
 pytestTestReports = "scripts.codeFormat:pytestTestReports"
 pytestCovReports = "scripts.codeFormat:pytestCovReports"
 
-
 [tool.pytest.ini_options]
 python_classes = "*Test"
 python_functions = "*Test"
 python_files = "*Tests.py"
-addopts = "-vs"
+addopts = "-v"
 log_cli = true
-log_format = "%(asctime)s %(levelname)s %(message)s"
-log_date_format = "%Y-%m-%d %H:%M:%S"
 log_cli_level = "INFO"
+log_cli_format = "%(asctime)s %(levelname)s %(filename)s::%(funcName)s::%(lineno)d %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 testpaths = [
-    "multiCurrency",
+    "kflask",
     "tests",
 ]
 markers = [
@@ -77,9 +74,9 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 
 [tool.coverage.run]
-source = ["multiCurrency"]
+source = ["kflask"]
 omit = [
-    "multiCurrency/__main__.py",
+    "kflask/__main__.py",
     "tests/conftest.py"
 ]
 

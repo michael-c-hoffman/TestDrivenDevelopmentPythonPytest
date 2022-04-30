@@ -170,31 +170,15 @@ def noNextMovesTest(kboard, coordinates):
 
     wknight = Knight(coordinates[0], kboard)
     logger.info("board\n%s", kboard)
-    with pytest.raises(InvalidLocationError) as error:
-        wknight.nextMove()
+    with pytest.raises(NoMoreMovesError) as error:
+        wknight.run()
     logger.info("knight path=%s", wknight.path)
     logger.info("board\n%s", wknight.board)
 
-@pytest.mark.parametrize("coordinateStart", [Coordinate(3,3)])
-def runUntilNoMovesLeftPopLastPathTest(kboard, coordinateStart):
-    """
-    Move until no more moves left and then pop the last move off the stack
-    """
-    wknight = Knight(coordinateStart, kboard)
-    logger.info("wknight start move=%s", wknight.path[-1])
-    maxrun = 0
-    #breakpoint()
-    try:
-        while maxrun < 50:
-            try:
-                wknight.nextMove()
-            except NoMoreMovesError:
-                maxrun += 1
-                wknight._backtrack()
-    except InvalidLocationError:
-        logger.exception("invalid location found")
-
+@pytest.mark.parametrize("coordinate", [Coordinate(0,0)])
+def moveUntilPathInvalidTest(kboard, coordinate):
+    wknight = Knight(coordinate, kboard)
+    with pytest.raises(NoMoreMovesError) as error:
+        wknight.run()
     logger.info("board\n%s", wknight.board)
-    logger.info("wknight last move=%s", json.dumps(wknight.path, indent=2, default=str))
-    logger.info("wknight._pathPop=%s", json.dumps(wknight._pathPop, indent=2, default=str))
-    assert len(wknight._pathPop) == 1
+    logger.info("knight path=%s", wknight.path)

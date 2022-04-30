@@ -1,0 +1,7 @@
+digraph "packages" {
+rankdir=BT
+charset="utf-8"
+"slotMachine" [color="black", label="slotMachine", shape="box", style="solid"];
+"slotMachine.__main__" [color="black", label="slotMachine.__main__", shape="box", style="solid"];
+"slotMachine.device" [color="black", label="slotMachine.device", shape="box", style="solid"];
+}

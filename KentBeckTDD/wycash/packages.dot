@@ -1,0 +1,9 @@
+digraph "packages" {
+rankdir=BT
+charset="utf-8"
+"multiCurrency" [color="black", label="multiCurrency", shape="box", style="solid"];
+"multiCurrency.currency" [color="black", label="multiCurrency.currency", shape="box", style="solid"];
+"multiCurrency.exceptions" [color="black", label="multiCurrency.exceptions", shape="box", style="solid"];
+"multiCurrency" -> "multiCurrency" [arrowhead="open", arrowtail="none"];
+"multiCurrency" -> "multiCurrency.exceptions" [arrowhead="open", arrowtail="none"];
+}

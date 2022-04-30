@@ -100,12 +100,12 @@ class Board:
 class Knight:
     """ Define knight current location and moves """
     def __init__(self, start: Coordinate, board: Board) -> None:
-        self.board = board
-        self.path: list[Coordinate] = []
+        self.board = board # board to move around (contains all board logic)
+        self.path: list[tuple] = [] # list of (coordinate,vector)
         self._pathPop: list[Coordinate] = []
         # try to place piece onto board
-        self.move(start)
-        self.__moves = [
+        self.move(start, -1)
+        self.__moves = (
             self.upLeft,
             self.upRight,
             self.leftUp,
@@ -114,95 +114,96 @@ class Knight:
             self.rightDown,
             self.downLeft,
             self.downRight,
-        ]
+        )
 
     def _backtrack(self) -> None:
+        # do not pop first move
+        if len(self.path) == 1:
+            raise NoMoreMovesError("Cannot Pop First Move")
         self._pathPop.append(self.path.pop())
-        self.board.unset(self._pathPop[-1])
-        logger.debug("no more moves left popped %s", self._pathPop[-1])
+        self.board.unset(self._pathPop[-1]) # mark the board coordinate as available
 
     def run(self) -> None:
-        while len(self.path) > 0:
+        while True:
             try:
-                self.nextMove()
+                self.nextMove(self.path[-1][1])
+                if self.board.complete():
+                    return True
             except InvalidLocationError:
-                self._backtrack()
-
-    def nextMove(self) -> Optional[bool]:
-        for knightMove in self.__moves:
+                raise NoMoreMovesError("not poping")
+                #self._backtrack()
+    def nextMove(self, movesIndex) -> Optional[bool]:
+        for index in range(movesIndex, len(self.__moves)):
             try:
                 # call function from list of __moves
-                nextCoordinate = knightMove()
+                logger.debug("calling knightMove=%s", knightMove)
+                nextCoordinate = self.__moves[index]()
                 logger.debug("nextCoordinate=%s", nextCoordinate)
-                if len(self._pathPop) > 0 and nextCoordinate in self._pathPop:
-                    self._backtrack()
-                    raise InvalidLocationError
+                self.move(nextCoordinate)
                 break
             except InvalidLocationError:
                 continue
         else:
-            raise NoMoreMovesError("no more moves to try")
-        return True
+            raise InvalidLocationError("No more moves to try")
 
-    def move(self, newLocation: Coordinate):
-        if self.board.move(newLocation):
-            self.path.append(newLocation)
-            self.board.mark(newLocation, len(self.path))
-        else:
+    def move(self, newLocation: Coordinate, movesIndex: int):
+        if not self.board.move(newLocation) or newLocation in self._pathPop:
             raise InvalidLocationError("Not a valid Move")
+        self.path.append((newLocation, movesIndex)
+        self.board.mark(newLocation, len(self.path))
 
     def upLeft(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 2
         newY = currentLocation.y - 1
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
 
     def upRight(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 2
         newY = currentLocation.y + 1
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
 
     def leftUp(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 1
         newY = currentLocation.y - 2
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
 
     def rightUp(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x - 1
         newY = currentLocation.y + 2
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
 
     def downLeft(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 2
         newY = currentLocation.y - 1
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
 
     def downRight(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 2
         newY = currentLocation.y + 1
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
 
     def leftDown(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 1
         newY = currentLocation.y - 2
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
 
     def rightDown(self) -> Coordinate:
         currentLocation = self.path[-1]
         newX = currentLocation.x + 1
         newY = currentLocation.y + 2
         newLocation = Coordinate(newX, newY)
-        self.move(newLocation)
+        return newLocation
