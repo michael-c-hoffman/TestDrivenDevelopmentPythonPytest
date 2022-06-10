@@ -3,5 +3,5 @@ Exceptions for stringOrderCheck
 """
 
 
-class stringOrderCheckError(Exception):
+class StringOrderCheckError(Exception):
     """Base Exception for stringOrderCheck"""

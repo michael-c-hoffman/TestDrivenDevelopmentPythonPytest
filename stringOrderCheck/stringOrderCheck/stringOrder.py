@@ -3,12 +3,14 @@ library for finding string order
 """
 import logging
 import re
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
 
 def orderScan(inputstr: str, orderstr: str) -> bool:
+    """
+    perform order scan on string given inputstr and orderstr
+    """
     ordered = True
     indices = orderIndices(inputstr, orderstr)
     # if empty indices the required order characters not found return false
@@ -30,6 +32,9 @@ def orderScan(inputstr: str, orderstr: str) -> bool:
 
 
 def nextChar(orderstr: str, char: str):
+    """
+    find what the next character to search for is
+    """
     nextchar = ""
     try:
         # get current character + 1 account for index out of range
