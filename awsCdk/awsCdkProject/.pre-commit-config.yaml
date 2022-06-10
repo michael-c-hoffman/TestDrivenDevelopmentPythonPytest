@@ -1,0 +1,27 @@
+# See https://pre-commit.com/ for usage and config
+repos:
+- repo: local
+  hooks:
+  - id: codeformat
+    name: codeformat
+    stages: [commit]
+    language: system
+    entry: poetry run codeFormat
+    types: [python]
+    pass_filenames: false
+
+  - id: pytest
+    name: pytest
+    stages: [commit]
+    language: system
+    entry: poetry run pytest --isort --black --mypy --pylint --html=reports/codeTests/index.html
+    types: [python]
+    pass_filenames: false
+
+  - id: pytest-cov
+    name: pytest
+    stages: [push]
+    language: system
+    entry: poetry run pytest --cov --cov-fail-under=50 --cov-report html:reports/codeCov/
+    types: [python]
+    pass_filenames: false
