@@ -1,5 +1,7 @@
 """
 Exceptions for stringOrderCheck
 """
+
+
 class stringOrderCheckError(Exception):
-    """ Base Exception for stringOrderCheck """
+    """Base Exception for stringOrderCheck"""
